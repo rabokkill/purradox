@@ -1,7 +1,6 @@
 <?php
 @include('functions.mysql_connect');
 @include('functions.user_data');
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

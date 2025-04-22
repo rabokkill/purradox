@@ -67,15 +67,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <img src="Assets/NekoBytesLogo.png" class="logo">
     <h1 class="text-center"><?php echo $title; ?></h1>
     <!-- Error -->
-    <?php
-        if (isset($_SESSION['error'])) {
-            echo '<div class="error">' . htmlspecialchars($_SESSION['error']) . '</div>';
-            unset($_SESSION['error']);
-        }
-    ?>
+    @if ($errors->any())
+        <ul class="px-4 py-2 bg-red-100">
+            @foreach ($errors->all() as $error)
+                <li class="my-2 text-red-500">{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
     <!-- Error End -->
     <!-- Form -->
-    <form action="login.php" method="POST">
+    <form action="{{ route('login') }}" method="POST">
+        @csrf
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" name="username" class="form-control" id="username" required oninput="usernameValidation(this)">
@@ -91,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="showPassword">Show Password</label>
         </div>
         <button type="submit" class="btn btn-primary btn-account">Login</button>
-        <a href="{{url('/signup')}}">Create new applicant account here.</a>
+        <a href="{{ route('show.signup') }}">Create new applicant account here.</a>
     </form>
     <!-- Form End -->
 </div>
