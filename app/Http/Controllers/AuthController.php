@@ -49,13 +49,17 @@ class AuthController extends Controller
 
     public function signup (Request $request) 
     {
+        $user->fill([
+            'user_type' => $data['APPLICANT'],
+        ]);
+
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'username' => 'required|string|max:50|unique:users',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8|confirmed',
         ]);
-
+        
         $user = User::create($validated);
 
         Auth::login($user);
