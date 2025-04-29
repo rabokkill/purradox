@@ -7,7 +7,7 @@ $_SESSION['success'] = "Signup successful! You will now be redirected to the Log
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_type = 'APPLICANT';
-    include ("Functions/signup_functions.php");
+    // include ("Functions/signup_functions.php");
 }
 ?>
 @extends('layouts.app')
