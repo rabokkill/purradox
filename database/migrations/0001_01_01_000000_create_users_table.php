@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('username', 50)->unique();
             $table->string('password');
-            $table->string('user_type', 50);
+            $table->string('user_type', 50)->default('applicant');
             $table->rememberToken();
             $table->timestamps();
         });

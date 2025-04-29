@@ -22,6 +22,7 @@ class User extends Authenticatable
         'last_name',
         'username',
         'password',
+        'user_type'
     ];
 
     /**
@@ -51,4 +52,23 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
+    public function getUsername()
+    {
+        return "{$this->user_name}";
+    }
+
+    public function isAdmin()
+    {
+        return $this->user_type === 'admin';
+    }
+
+    public function isApplicant()
+    {
+        return $this->user_type === 'applicant';
+    }
+
+    public function isEmployee()
+    {
+        return $this->user_type === 'employee';
+    }
 }
