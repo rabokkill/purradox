@@ -86,8 +86,8 @@ function viewPassword() {
 
 // Job Listings
 function toggleMode(jobID) {
-    var editMode = document.getElementById('edit-mode-' + jobID);
-    var viewMode = document.getElementById('view-mode-' + jobID);
+    var editMode = document.getElementById('edit-mode-' + id);
+    var viewMode = document.getElementById('view-mode-' + id);
 
     editMode.style.display = (editMode.style.display === "none" || editMode.style.display === "") ? "table-row" : "none";
     viewMode.style.display = (viewMode.style.display === "none" || viewMode.style.display === "") ? "none" : "table-row";

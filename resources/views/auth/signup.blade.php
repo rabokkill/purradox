@@ -1,14 +1,5 @@
 <?php
 $title = "Signup";
-
-session_start();
-
-$_SESSION['success'] = "Signup successful! You will now be redirected to the Login page.";  
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $user_type = 'APPLICANT';
-    // include ("Functions/signup_functions.php");
-}
 ?>
 @extends('layouts.app')
 @section('content')

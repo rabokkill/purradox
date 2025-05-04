@@ -28,15 +28,15 @@ class AuthController extends Controller
 
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            $user = Auth::user();
-            if ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->isApplicant()) {
-                return redirect()->route('user.dashboard');
-            } elseif ($user->isEmployee()) {
-                return redirect()->route('user.dashboard');
-            }
-            // return redirect()->route('dashboard');
+            // $user = Auth::user();
+            // if ($user->isAdmin()) {
+            //     return redirect()->route('admin.dashboard');
+            // } elseif ($user->isApplicant()) {
+            //     return redirect()->route('user.dashboard');
+            // } elseif ($user->isEmployee()) {
+            //     return redirect()->route('user.dashboard');
+            // }
+            return redirect()->route('dashboard');
         }
 
         throw ValidationException::withMessages([

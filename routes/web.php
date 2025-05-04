@@ -18,12 +18,14 @@ Route::post('/signup', [AuthController::class, 'signup'])->name('signup');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'authenticated'])->name('dashboard');
+    Route::get('/jobs', [DashboardController::class, 'job_listings'])->name('jobs');
 });
 
-Route::middleware('auth', Login::class . ':admin')->group(function () {
-    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
-});
+// Route::middleware('auth', Login::class . ':admin')->group(function () {
+//     Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
+// });
 
-Route::middleware('auth', Login::class . ':applicant,employee')->group(function () {
-    Route::get('/user/dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
-});
+// Route::middleware('auth', Login::class . ':applicant,employee')->group(function () {
+//     Route::get('/user/dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
+// });
