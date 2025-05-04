@@ -11,17 +11,7 @@
 </head>
 <body>
     <div class="container-fluid">
-        @auth
-            @if(auth()->user()->id === 1)
-                @include('layouts.sidebar')
-                <div class="col-sm-10 content">
-                    @yield('content')
-                </div>
-            @endif
-        @endauth
-        @guest
-            @yield('content')
-        @endguest
+        @yield('content')
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
