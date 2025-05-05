@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('job_title');
             $table->string('job_role');
             $table->string('job_salary');
-            $table->longText('job_desc');
+            $table->longText('job_desc')->nullable();
             $table->integer('job_slots');
             $table->timestamps();
         });

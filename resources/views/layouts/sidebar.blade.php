@@ -3,7 +3,7 @@
     <ul class="nav nav-pills nav-stacked">
         <li><h6><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</h6></li>
         <li class="active text-center"><a href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i></a></li>
-        <li><a href="{{ route('jobs') }}">Job Listings</a></li>
+        <li><a href="{{ route('show.jobs') }}">Job Listings</a></li>
         @auth
             @if(auth()->user()->user_type === 'admin')
                 <li><a href="">Employees</a></li>

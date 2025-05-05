@@ -5,7 +5,8 @@
     <h1>{{ $title }}</h1>
     <button class="btn btn-secondary btn-jobs" type="button" onclick="toggleActionField('addAction')">Add Job Listing</button>
     <div id="addAction" class="toggle-form">
-        <form class="job-panel" method="POST">
+        <form class="job-panel" method="POST" action="{{ route('create.job') }}">
+            @csrf
             <input type="hidden" name="action" value="add">
             <button type="button" class="btn-x" onclick="toggleActionField('closeForm')"><i class="bi bi-x-lg"></i></button>
             <div class="form-group">
@@ -21,16 +22,16 @@
                 <input type="text" name="job_role" class="form-control" id="job_role" required>
             </div>
             <div class="form-group">
-                <label for="job_slots">Slots</label>
-                <input type="number" name="job_slots" class="form-control" id="job_slots" required>
-            </div>
-            <div class="form-group">
                 <label for="job_salary">Salary</label>
                 <input type="text" name="job_salary" class="form-control" id="job_salary" required>
             </div>
             <div class="form-group">
                 <label for="job_desc">Description</label>
                 <input type="text" name="job_desc" class="form-control" id="job_desc">
+            </div>
+            <div class="form-group">
+                <label for="job_slots">Slots</label>
+                <input type="number" name="job_slots" class="form-control" id="job_slots" required>
             </div>
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
@@ -90,7 +91,6 @@
                             <td class="text-center">{{ $job->id }}</td>
                         <form method="POST">
                             @csrf
-                            @method('PUT')
                             <input type="hidden" name="jobID" value="{{ $job->id }}"/>
                             <td><input type="text" name="job_dept" value="{{ $job->job_dept }}" class="form-control"/></td>
                             <td><input type="text" name="job_title" value="{{ $job->job_title }}" class="form-control"/></td>

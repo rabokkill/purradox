@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,15 +10,6 @@ class DashboardController extends Controller
     {
         return view('pages.dashboard', [
             'title' => 'Dashboard'
-        ]);
-    }
-
-    public function job_listings()
-    {
-        $jobs = Job::all();
-        return view('pages.jobs', [
-            'title' => 'Job Listings',
-            'all_jobs' => $jobs
         ]);
     }
 
