@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'authenticated'])->name('dashboard');
     Route::get('/jobs', [JobController::class, 'job_listings'])->name('show.jobs');
     Route::post('/jobs/create', [JobController::class, 'create_job'])->name('create.job');
+    Route::put('/jobs/{job}/update', [JobController::class, 'update_job'])->name('update.job');
+    Route::delete('/jobs/{job}/delete', [JobController::class, 'delete_job'])->name('delete.job');
 });
 
 // Route::middleware('auth', Login::class . ':admin')->group(function () {

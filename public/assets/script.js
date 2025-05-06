@@ -85,13 +85,24 @@ function viewPassword() {
 }
 
 // Job Listings
+// function toggleMode(jobID) {
+//     var editMode = document.getElementById('edit-mode-' + jobID);
+//     var viewMode = document.getElementById('view-mode-' + jobID);
+
+//     editMode.style.display = (editMode.style.display === "none" || editMode.style.display === "") ? "table-row" : "none";
+//     viewMode.style.display = (viewMode.style.display === "none" || viewMode.style.display === "") ? "none" : "table-row";
+// }
+
 function toggleMode(jobID) {
     var editMode = document.getElementById('edit-mode-' + jobID);
     var viewMode = document.getElementById('view-mode-' + jobID);
 
-    editMode.style.display = (editMode.style.display === "none" || editMode.style.display === "") ? "table-row" : "none";
-    viewMode.style.display = (viewMode.style.display === "none" || viewMode.style.display === "") ? "none" : "table-row";
+    var isEditing = editMode.style.display === "table-row";
+
+    editMode.style.display = isEditing ? "none" : "table-row";
+    viewMode.style.display = isEditing ? "table-row" : "none";
 }
+
 
 function toggleActionField(actionID) {
     var allActions = document.querySelectorAll('.toggle-form');

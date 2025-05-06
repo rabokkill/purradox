@@ -42,6 +42,22 @@ class JobsTableSeeder extends Seeder
             ['id'=> 7 ,'job_dept'=>'Quality Assurance','job_title'=>'QA Tester','job_role'=>'QA Tester','job_salary'=>'PHP 20,000 - PHP 35,000',
             'job_desc'=>'Tests the game for bugs, glitches, and issues.','job_slots'=>'5',
             'created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
+            
+            ['id'=> 8 ,'job_dept'=>'Quality Assurance','job_title'=>'QA Lead','job_role'=>'QA Lead','job_salary'=>'PHP 50,000 - PHP 80,000',
+            'job_desc'=>'Manages QA testers and organizes testing efforts.','job_slots'=>'1',
+            'created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
+
+            ['id'=> 9 ,'job_dept'=>'Production and Project Management','job_title'=>'Project Manager','job_role'=>'Head of Production','job_salary'=>'PHP 250,000 - PHP 600,000+',
+            'job_desc'=>'Manages the workflow and team schedules to keep the project on track.','job_slots'=>'1',
+            'created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
+
+            ['id'=> 10 ,'job_dept'=>'Marketing and Community Management','job_title'=>'Marketing Specialist','job_role'=>'Marketing Specialist','job_salary'=>'PHP 35,000 - PHP 50,000',
+            'job_desc'=>'Develops and executes marketing campaigns to promote the game.','job_slots'=>'2',
+            'created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
+
+            ['id'=> 11 ,'job_dept'=>'Business and Administration','job_title'=>'Human Resources','job_role'=>'Manager','job_salary'=>'PHP 50,000 - PHP 80,000',
+            'job_desc'=>'Manages hiring, company culture, and team wellbeing.','job_slots'=>'2',
+            'created_at'=>Carbon::now(),'updated_at'=>Carbon::now()],
         ]);
     }
 }

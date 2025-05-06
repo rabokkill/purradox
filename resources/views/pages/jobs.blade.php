@@ -55,7 +55,7 @@
             </thead>
             <tbody>
                 @foreach ($all_jobs as $job)
-                    <tr id="view-mode-{{ $job->jobID }}" class="view-mode">
+                    <tr id="view-mode-{{ $job->id }}" class="view-mode">
                         <td class="text-center">{{ $job->id }}</td>
                         <td>{{ $job->job_dept }}</td>
                         <td>{{ $job->job_title }}</td>
@@ -75,7 +75,7 @@
                         <!-- Update Button End -->
                         <!-- Delete Button -->
                         <td class="danger text-center">
-                            <form method="POST">
+                            <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="jobID" value="{{ $job->id }}">
@@ -89,8 +89,9 @@
                     </tr>
                     <tr id="edit-mode-{{ $job->id }}" class="toggle-form">
                             <td class="text-center">{{ $job->id }}</td>
-                        <form method="POST">
+                        <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
                             @csrf
+                            @method('PUT')
                             <input type="hidden" name="jobID" value="{{ $job->id }}"/>
                             <td><input type="text" name="job_dept" value="{{ $job->job_dept }}" class="form-control"/></td>
                             <td><input type="text" name="job_title" value="{{ $job->job_title }}" class="form-control"/></td>
@@ -98,7 +99,7 @@
                             <td><input type="text" name="job_salary" value="{{ $job->job_salary }}" class="form-control"/></td>
                             <td><input type="text" name="job_desc" value="{{ $job->job_desc }}" class="form-control"/></td>
                             <td><input type="number" name="job_slots" value="{{ $job->job_slots }}" class="form-control text-center"/></td>
-                            <td class="text-center">{{ $job->job_created_at }}</td>
+                            <td class="text-center">{{ $job->created_at }}</td>
                             <td class="text-center">{{ $job->updated_at }}</td>
                             <!-- Update Button -->
                             <td class="success text-center">
@@ -109,23 +110,29 @@
                             </td>
                         </form>
                         <!-- Update Button End -->
-                        <!-- Delete Button -->
-                        <td class="danger text-center">
-                            <form method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="jobID" value="{{ $job->id }}">
-                                <button class="btn btn-danger" type="submit" name="action" value="delete" 
-                                    onclick="return confirm('Are you sure you want to DELETE this Job Listing?')">
-                                    <i class="bi bi-trash3-fill"></i>
-                                </button>
-                            </form>
+                        <!-- Cancel Update Button -->
+                        <td class="warning text-center">
+                            <button class="btn btn-warning" type="button" 
+                                onclick="toggleMode({{ $job->id }})">
+                                <i class="bi bi-arrow-return-left"></i>
+                            </button>
                         </td>
-                        <!-- Delete Button End -->
+                        <!-- Cancel Update Button End -->
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <br>{{ $all_jobs->links() }}
+    @if(session()->has('success'))
+        <h4>- {{ session('success') }} -</h4>
+    @endif
+    @if ($errors->any())
+    <div class="alert alert-danger" style="margin-top:10px">
+        @foreach ($errors->all() as $error)
+            <div class="text-center">{{ $error }}</div>
+        @endforeach
+    </div>
+    @endif
 </div>
 @endsection
