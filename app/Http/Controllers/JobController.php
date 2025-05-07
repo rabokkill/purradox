@@ -9,7 +9,7 @@ class JobController extends Controller
 {
     public function job_listings()
     {
-        $jobs = Job::orderBy('created_at', 'desc')->paginate(7);
+        $jobs = Job::orderBy('updated_at', 'desc')->paginate(7);
         return view('pages.jobs', [
             'title' => 'Job Listings',
             'all_jobs' => $jobs

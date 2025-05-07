@@ -27,7 +27,8 @@
             </div>
             <div class="form-group">
                 <label for="job_desc">Description</label>
-                <input type="text" name="job_desc" class="form-control" id="job_desc">
+                <textarea name="job_desc" id="job_desc" cols="30" rows="10" class="form-control"></textarea>
+                <!-- <input type="text" name="job_desc" class="form-control" id="job_desc"> -->
             </div>
             <div class="form-group">
                 <label for="job_slots">Slots</label>
@@ -50,7 +51,9 @@
                     <th>Date Posted</th>
                     <th>Last Updated</th>
                     <th>UPDATE</th>
-                    <th>DELETE</th>
+                    <th>CANCEL</th>
+                    <!-- <th id="toggleEdit('view-mode')">DELETE</th>
+                    <th id="toggleEdit('edit-mode')">CANCEL</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -78,7 +81,6 @@
                             <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" name="jobID" value="{{ $job->id }}">
                                 <button class="btn btn-danger" type="submit" name="action" value="delete" 
                                     onclick="return confirm('Are you sure you want to DELETE this Job Listing?')">
                                     <i class="bi bi-trash3-fill"></i>
@@ -88,7 +90,7 @@
                         <!-- Delete Button End -->
                     </tr>
                     <tr id="edit-mode-{{ $job->id }}" class="toggle-form">
-                            <td class="text-center">{{ $job->id }}</td>
+                        <td class="text-center">{{ $job->id }}</td>
                         <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
                             @csrf
                             @method('PUT')
@@ -103,10 +105,36 @@
                             <td class="text-center">{{ $job->updated_at }}</td>
                             <!-- Update Button -->
                             <td class="success text-center">
-                                <button class="btn btn-success" type="submit" name="action" value="update"
-                                onclick="return confirm('Submit UPDATE?')">
+                                <!-- <button class="btn btn-success" type="submit" name="action" value="update"
+                                    onclick="return confirm('Submit UPDATE?')">
+                                    <i class="bi bi-check-square-fill"></i>
+                                </button> -->
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
                                     <i class="bi bi-check-square-fill"></i>
                                 </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Submit UPDATE?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
                             </td>
                         </form>
                         <!-- Update Button End -->
@@ -123,10 +151,15 @@
             </tbody>
         </table>
     </div>
+    <!-- Pages -->
     <br>{{ $all_jobs->links() }}
+    <!-- Pages End -->
+    <!-- Success -->
     @if(session()->has('success'))
         <h4>- {{ session('success') }} -</h4>
     @endif
+    <!-- Success End -->
+    <!-- Error -->
     @if ($errors->any())
     <div class="alert alert-danger" style="margin-top:10px">
         @foreach ($errors->all() as $error)
@@ -134,5 +167,6 @@
         @endforeach
     </div>
     @endif
+    <!-- Error End-->
 </div>
 @endsection
