@@ -84,6 +84,13 @@ function viewPassword() {
       }
 }
 
+function showModal() {
+    var confirmAction = new bootstrap.Modal(document.getElementById('confirmAction'));
+    confirmAction.show();
+}
+
+// const confirmAction = new bootstrap.Modal('#confirmAction');
+
 // Job Listings
 // function toggleMode(jobID) {
 //     var editMode = document.getElementById('edit-mode-' + jobID);
@@ -123,3 +130,11 @@ function toggleActionField(actionID) {
     selectedAction.style.display = (selectedAction.style.display === "none" || selectedAction.style.display === "") ? "block" : "none";
     closeForm.style.display = selectedAction.style.display === "block" ? "none" : "none";
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+const feedbackModal = document.getElementById('feedbackModal');
+if (feedbackModal) {
+    const modal = new bootstrap.Modal(feedbackModal);
+    modal.show();
+}
+});

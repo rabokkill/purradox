@@ -3,40 +3,52 @@
 @include('layouts.sidebar')
 <div class="col content">
     <h1>{{ $title }}</h1>
-    <button class="btn btn-secondary btn-jobs" type="button" onclick="toggleActionField('addAction')">Add Job Listing</button>
-    <div id="addAction" class="toggle-form">
-        <form class="job-panel" method="POST" action="{{ route('create.job') }}">
-            @csrf
-            <input type="hidden" name="action" value="add">
-            <button type="button" class="btn-x" onclick="toggleActionField('closeForm')"><i class="bi bi-x-lg"></i></button>
-            <div class="form-group">
-                <label for="job_dept">Department</label>
-                <input type="text" name="job_dept" class="form-control" id="job_dept" required>
+    <!-- New Job Listing -->
+    <button class="btn btn-secondary btn-jobs" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
+    <form method="POST" action="{{ route('create.job') }}">
+        @csrf
+        <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListing" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">New Job Listing</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="job_dept">Department</label>
+                            <input type="text" name="job_dept" class="form-control" id="job_dept" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job_title">Title</label>
+                            <input type="text" name="job_title" class="form-control" id="job_title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job_role">Role</label>
+                            <input type="text" name="job_role" class="form-control" id="job_role" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job_salary">Salary</label>
+                            <input type="text" name="job_salary" class="form-control" id="job_salary" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="job_desc">Description</label>
+                            <textarea name="job_desc" id="job_desc" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="job_slots">Slots</label>
+                            <input type="number" name="job_slots" class="form-control" id="job_slots" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="job_title">Title</label>
-                <input type="text" name="job_title" class="form-control" id="job_title" required>
-            </div>
-            <div class="form-group">
-                <label for="job_role">Role</label>
-                <input type="text" name="job_role" class="form-control" id="job_role" required>
-            </div>
-            <div class="form-group">
-                <label for="job_salary">Salary</label>
-                <input type="text" name="job_salary" class="form-control" id="job_salary" required>
-            </div>
-            <div class="form-group">
-                <label for="job_desc">Description</label>
-                <textarea name="job_desc" id="job_desc" cols="30" rows="10" class="form-control"></textarea>
-                <!-- <input type="text" name="job_desc" class="form-control" id="job_desc"> -->
-            </div>
-            <div class="form-group">
-                <label for="job_slots">Slots</label>
-                <input type="number" name="job_slots" class="form-control" id="job_slots" required>
-            </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
-    </div>
+        </div>
+    </form>
+    <!-- Show All Jobs -->
     <div class="data-list">
         <table class="table table-bordered">
             <thead>
@@ -81,10 +93,9 @@
                             <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" type="submit" name="action" value="delete" 
-                                    onclick="return confirm('Are you sure you want to DELETE this Job Listing?')">
-                                    <i class="bi bi-trash3-fill"></i>
-                                </button>
+                                <button type="button" class="btn btn-danger" data-bs-target="#confirmModal" data-bs-toggle="modal"><i class="bi bi-trash3-fill"></i></button>
+                                <?php $message = 'Are you sure you want to delete this Job Listing?'?>
+                                @include('layouts.message')
                             </form>
                         </td>
                         <!-- Delete Button End -->
@@ -105,39 +116,9 @@
                             <td class="text-center">{{ $job->updated_at }}</td>
                             <!-- Update Button -->
                             <td class="success text-center">
-                                <!-- <button class="btn btn-success" type="submit" name="action" value="update"
-                                    onclick="return confirm('Submit UPDATE?')">
-                                    <i class="bi bi-check-square-fill"></i>
-                                </button> -->
-
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
-                                    <i class="bi bi-check-square-fill"></i>
-                                </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Submit UPDATE?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
+                                <button type="submit" class="btn btn-success"><i class="bi bi-check-square-fill"></i></button>
                             </td>
                         </form>
-                        <!-- Update Button End -->
                         <!-- Cancel Update Button -->
                         <td class="warning text-center">
                             <button class="btn btn-warning" type="button" 
@@ -145,25 +126,52 @@
                                 <i class="bi bi-arrow-return-left"></i>
                             </button>
                         </td>
-                        <!-- Cancel Update Button End -->
                     </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
-    <br>{{ $all_jobs->links() }}
+    <br>
+    <!-- Pages -->
+    <div class="pages justify-content-between">
+        {{ $all_jobs->links('pagination::bootstrap-5') }}
+    </div>
+    <!-- Success Modal -->
     @if(session()->has('success'))
-        <h4>- {{ session('success') }} -</h4>
-    @endif
-    <!-- Success End -->
-    <!-- Error -->
-    @if ($errors->any())
-    <div class="alert alert-danger" style="margin-top:10px">
-        @foreach ($errors->all() as $error)
-            <div class="text-center">{{ $error }}</div>
-        @endforeach
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="feedbackModalLabel">Success</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <p>{{ session('success') }}</p>
+        </div>
+        </div>
+    </div>
     </div>
     @endif
-    <!-- Error End-->
+
+    <!-- Error Modal -->
+    @if ($errors->any())
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="feedbackModalLabel">Error</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+            </ul>
+        </div>
+        </div>
+    </div>
+    </div>
+    @endif
 </div>
 @endsection
