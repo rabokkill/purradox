@@ -103,6 +103,13 @@ function toggleMode(jobID) {
     viewMode.style.display = isEditing ? "table-row" : "none";
 }
 
+// function toggleEdit() {
+//     var cancelMode = document.getElementById('edit-mode');
+//     var deleteMode = document.getElementById('view-mode');
+
+//     cancelMode.style.display = (cancelMode.style.display === "none" || cancelMode.style.display === "") ? "none" : "block";
+//     deleteMode.style.display = (deleteMode.style.display === "none" || deleteMode.style.display === "") ? "block" : "none";
+// }
 
 function toggleActionField(actionID) {
     var allActions = document.querySelectorAll('.toggle-form');
