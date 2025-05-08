@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.sidebar')
-<div class="col-sm-10 content">
+<div class="col content">
     <h1>{{ $title }}</h1>
     <button class="btn btn-secondary btn-jobs" type="button" onclick="toggleActionField('addAction')">Add Job Listing</button>
     <div id="addAction" class="toggle-form">
@@ -68,7 +68,7 @@
                         <!-- Update Button -->
                         <td class="success text-center">
                             <button class="btn btn-success" type="button" 
-                                onclick="toggleMode({{ $job->id }})">
+                                onclick="toggleMode('{{ $job->id }}')">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
                         </td>
@@ -113,7 +113,7 @@
                         <!-- Cancel Update Button -->
                         <td class="warning text-center">
                             <button class="btn btn-warning" type="button" 
-                                onclick="toggleMode({{ $job->id }})">
+                                onclick="toggleMode('{{ $job->id }}')">
                                 <i class="bi bi-arrow-return-left"></i>
                             </button>
                         </td>
@@ -123,7 +123,10 @@
             </tbody>
         </table>
     </div>
-    <br>{{ $all_jobs->links() }}
+    <br>
+    <div class="pages justify-content-between">
+        {{ $all_jobs->links('pagination::bootstrap-5') }}
+    </div>
     @if(session()->has('success'))
         <h4>- {{ session('success') }} -</h4>
     @endif
