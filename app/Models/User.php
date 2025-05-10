@@ -47,6 +47,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function userForeign()
+    {
+        return $this->hasMany(Applicant::class, 'user_id');
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";

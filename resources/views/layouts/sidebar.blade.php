@@ -19,7 +19,7 @@
         <a class="nav-link active text-center" aria-current="page" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i></a>
         <a class="nav-link" href="{{ route('show.jobs') }}">Job Listings</a>
         @auth
-            @if(auth()->user()->user_type === 'admin')
+            @if(auth()->user()->isAdmin())
                 <a class="nav-link" href="">Employees</a>
                 <a class="nav-link" href="">Applicants</a>
             @else

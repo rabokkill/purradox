@@ -53,7 +53,11 @@
         <table class="table table-bordered">
             <thead>
                 <tr class="active">
-                    <th>ID</th>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <th>ID</th>
+                        @endif
+                    @endauth
                     <th>Department</th>
                     <th>Title</th>
                     <th>Role</th>
@@ -62,8 +66,14 @@
                     <th>Slots</th>
                     <th>Date Posted</th>
                     <th>Last Updated</th>
-                    <th>UPDATE</th>
-                    <th>CANCEL</th>
+                    @auth
+                        @if(auth()->user()->isAdmin())
+                            <th>UPDATE</th>
+                            <th>DELETE</th>
+                        @else
+                            <th>APPLY</th>
+                        @endif
+                    @endauth
                     <!-- <th id="toggleEdit('view-mode')">DELETE</th>
                     <th id="toggleEdit('edit-mode')">CANCEL</th> -->
                 </tr>
@@ -71,7 +81,11 @@
             <tbody>
                 @foreach ($all_jobs as $job)
                     <tr id="view-mode-{{ $job->id }}" class="view-mode">
-                        <td class="text-center">{{ $job->id }}</td>
+                        @auth
+                            @if(auth()->user()->isAdmin())
+                            <td class="text-center">{{ $job->id }}</td>
+                            @endif
+                        @endauth
                         <td>{{ $job->job_dept }}</td>
                         <td>{{ $job->job_title }}</td>
                         <td>{{ $job->job_role }}</td>
@@ -79,33 +93,49 @@
                         <td>{{ $job->job_desc }}</td>
                         <td class="text-center">{{ $job->job_slots }}</td>
                         <td class="text-center">{{ $job->created_at }}</td>
-                        <td class="text-center">{{ $job->updated_at }}</td> 
-                        <!-- Update Button -->
-                        <td class="success text-center">
-                            <button class="btn btn-success" type="button" 
-                                onclick="toggleMode('{{ $job->id }}')">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </td>
-                        <!-- Update Button End -->
-                        <!-- Delete Button -->
-                        <td class="danger text-center">
-                            <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-danger" data-bs-target="#confirmModal" data-bs-toggle="modal"><i class="bi bi-trash3-fill"></i></button>
-                                <?php $message = 'Are you sure you want to delete this Job Listing?'?>
-                                @include('layouts.message')
-                            </form>
-                        </td>
-                        <!-- Delete Button End -->
+                        <td class="text-center">{{ $job->updated_at }}</td>
+                        @auth
+                            @if(auth()->user()->isAdmin())
+                                <!-- Update Button -->
+                                <td class="text-center">
+                                    <button class="btn btn-success" type="button" 
+                                        onclick="toggleMode('{{ $job->id }}')">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </td>
+                                <!-- Update Button End -->
+                                <!-- Delete Button -->
+                                <td class="text-center">
+                                    <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-trash3-fill"></i></button>
+                                        <?php $message = 'Are you sure you want to delete this Job Listing?'?>
+                                        @include('layouts.message')
+                                    </form>
+                                </td>
+                                <!-- Delete Button End -->
+                            @else
+                                <form method="POST" action="{{ route('apply.job') }}">
+                                    @csrf
+                                    @method('POST')
+                                    <input type="hidden" name="job_id" value="{{ $job->id }}"/>
+                                    <input type="hidden" name="job_title" value="{{ $job->job_title }}"/>
+                                    <input type="hidden" name="job_role" value="{{ $job->job_role }}"/>
+
+                                    <td class="text-center">
+                                        <button type="submit" class="btn btn-success"><i class="bi bi-hand-index-thumb-fill"></i></button>
+                                    </td>
+                                </form>
+                            @endif
+                        @endauth
                     </tr>
                     <tr id="edit-mode-{{ $job->id }}" class="toggle-form">
                         <td class="text-center">{{ $job->id }}</td>
                         <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
                             @csrf
-                            @method('PUT')
-                            <input type="hidden" name="jobID" value="{{ $job->id }}"/>
+                            @method('POST')
+                            <input type="hidden" name="job_id" value="{{ $job->id }}"/>
                             <td><input type="text" name="job_dept" value="{{ $job->job_dept }}" class="form-control"/></td>
                             <td><input type="text" name="job_title" value="{{ $job->job_title }}" class="form-control"/></td>
                             <td><input type="text" name="job_role" value="{{ $job->job_role }}" class="form-control"/></td>
@@ -115,12 +145,12 @@
                             <td class="text-center">{{ $job->created_at }}</td>
                             <td class="text-center">{{ $job->updated_at }}</td>
                             <!-- Update Button -->
-                            <td class="success text-center">
+                            <td class="text-center">
                                 <button type="submit" class="btn btn-success"><i class="bi bi-check-square-fill"></i></button>
                             </td>
                         </form>
                         <!-- Cancel Update Button -->
-                        <td class="warning text-center">
+                        <td class="text-center">
                             <button class="btn btn-warning" type="button" 
                                 onclick="toggleMode('{{ $job->id }}')">
                                 <i class="bi bi-arrow-return-left"></i>
@@ -137,22 +167,21 @@
         {{ $all_jobs->links('pagination::bootstrap-5') }}
     </div>
     <!-- Success Modal -->
-    @if(session()->has('success'))
+    @if(session()->has('message'))
     <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-        <div class="modal-header bg-success text-white">
-            <h5 class="modal-title" id="feedbackModalLabel">Success</h5>
+        <div class="modal-header bg-info text-white">
+            <h5 class="modal-title" id="feedbackModalLabel">Notice</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <p>{{ session('success') }}</p>
+            <p>{{ session('message') }}</p>
         </div>
         </div>
     </div>
     </div>
     @endif
-
     <!-- Error Modal -->
     @if ($errors->any())
     <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">

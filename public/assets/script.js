@@ -138,3 +138,10 @@ if (feedbackModal) {
     modal.show();
 }
 });
+
+function injectJobData(id, title, role) {
+    document.getElementById('job_id').value = id;
+    document.getElementById('job_title').value = title;
+    document.getElementById('job_role').value = role;
+    form.submit();
+}

@@ -6,11 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'job_dept',
         'job_title',
@@ -21,4 +16,9 @@ class Job extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function jobForeign()
+    {
+        return $this->hasMany(Applicant::class, 'job_id');
+    }
 }
