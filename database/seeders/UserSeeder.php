@@ -24,7 +24,9 @@ class UserSeeder extends Seeder
 
             ['id'=> 4 ,'first_name'=>'Jemz','last_name'=>'Hernalin','username'=>'jemz','password'=>Hash::make('123'),'user_type'=>'admin'],
 
-            ['id'=> 5 ,'first_name'=>'Jungkook','last_name'=>'Jeon','username'=>'jjk_97','password'=>Hash::make('Lezgetit'),'user_type'=>'applicant']
+            ['id'=> 5 ,'first_name'=>'Jungkook','last_name'=>'Jeon','username'=>'jjk_97','password'=>Hash::make('Lezgetit'),'user_type'=>'applicant'],
+
+            ['id'=> 6 ,'first_name'=>'Seokjin','last_name'=>'Kim','username'=>'jin','password'=>Hash::make('SuperTuna'),'user_type'=>'applicant']
         ]);
     }
 }

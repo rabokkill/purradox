@@ -17,8 +17,13 @@ class Job extends Model
         'updated_at'
     ];
 
-    public function jobForeign()
+    public function jobApplicants()
     {
         return $this->hasMany(Applicant::class, 'job_id');
+    }
+
+    public function jobEmployees()
+    {
+        return $this->hasMany(Employee::class, 'job_id');
     }
 }

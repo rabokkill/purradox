@@ -72,6 +72,8 @@ class JobController extends Controller
     {
         
         $user_id = Auth::id();
+        $user_fname = Auth::user()->first_name;
+        $user_lname = Auth::user()->last_name;
         
         $exists = Applicant::where('user_id', $user_id)
                     ->where('application_status', 'PENDING')
@@ -84,11 +86,13 @@ class JobController extends Controller
 
         Applicant::create([
             'user_id' => $user_id,
+            'first_name' => $user_fname,
+            'last_name' => $user_lname,
             'job_id' => $request->input('job_id'),
             'job_title' => $request->input('job_title'),
             'job_role' => $request->input('job_role')
         ]);
     
-        return redirect()->route('show.jobs')->with('message', 'Application Submitted Successfully!');
+        return redirect()->route('show.status')->with('message', 'Application Submitted Successfully!');
     }
 }

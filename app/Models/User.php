@@ -47,9 +47,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function userForeign()
+    public function userApplicants()
     {
         return $this->hasMany(Applicant::class, 'user_id');
+    }
+
+    public function userEmployees()
+    {
+        return $this->hasMany(Employee::class, 'user_id');
     }
 
     public function getFullNameAttribute()

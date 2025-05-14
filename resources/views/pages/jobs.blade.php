@@ -103,7 +103,6 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </button>
                                 </td>
-                                <!-- Update Button End -->
                                 <!-- Delete Button -->
                                 <td class="text-center">
                                     <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
@@ -114,19 +113,20 @@
                                         @include('layouts.message')
                                     </form>
                                 </td>
-                                <!-- Delete Button End -->
                             @else
-                                <form method="POST" action="{{ route('apply.job') }}">
-                                    @csrf
-                                    @method('POST')
-                                    <input type="hidden" name="job_id" value="{{ $job->id }}"/>
-                                    <input type="hidden" name="job_title" value="{{ $job->job_title }}"/>
-                                    <input type="hidden" name="job_role" value="{{ $job->job_role }}"/>
-
-                                    <td class="text-center">
-                                        <button type="submit" class="btn btn-success"><i class="bi bi-hand-index-thumb-fill"></i></button>
-                                    </td>
-                                </form>
+                                <!-- Apply Button -->
+                                <td class="text-center">
+                                    <form method="POST" action="{{ route('apply.job') }}">
+                                        @csrf
+                                        @method('POST')
+                                            <input type="hidden" name="job_id" value="{{ $job->id }}">
+                                            <input type="hidden" name="job_title" value="{{ $job->job_title }}">
+                                            <input type="hidden" name="job_role" value="{{ $job->job_role }}">
+                                            <button type="button" class="btn btn-success" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-hand-index-thumb-fill"></i></button>
+                                            <?php $message = 'Submit your application?'?>
+                                            @include('layouts.message')
+                                    </form>
+                                </td>
                             @endif
                         @endauth
                     </tr>
@@ -134,7 +134,7 @@
                         <td class="text-center">{{ $job->id }}</td>
                         <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
                             @csrf
-                            @method('POST')
+                            @method('PUT')
                             <input type="hidden" name="job_id" value="{{ $job->id }}"/>
                             <td><input type="text" name="job_dept" value="{{ $job->job_dept }}" class="form-control"/></td>
                             <td><input type="text" name="job_title" value="{{ $job->job_title }}" class="form-control"/></td>

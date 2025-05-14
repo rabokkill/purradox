@@ -20,11 +20,11 @@
         <a class="nav-link" href="{{ route('show.jobs') }}">Job Listings</a>
         @auth
             @if(auth()->user()->isAdmin())
-                <a class="nav-link" href="">Employees</a>
-                <a class="nav-link" href="">Applicants</a>
+                <a class="nav-link" href="{{ route('show.employees') }}">Employees</a>
+                <a class="nav-link" href="{{ route('show.applicants') }}">Applicants</a>
             @else
-                <a class="nav-link" href="">Employment Status</a>
-                <a class="nav-link" href="">Application Status</a>
+                <a class="nav-link" href="{{ route('show.employeeStatus') }}">Employment Status</a>
+                <a class="nav-link" href="{{ route('show.applicantStatus') }}">Application Status</a>
             @endif
         @endauth
     </nav>

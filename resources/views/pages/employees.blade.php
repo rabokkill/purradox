@@ -1,0 +1,94 @@
+@extends('layouts.app')
+@section('content')
+@include('layouts.sidebar')
+<div class="col content">
+    <h1>{{ $title }}</h1>
+    @auth
+        @if(auth()->user()->isAdmin())
+            <div class="data-list">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>Employee Name</th>
+                            <th>Job</th>
+                            <th>Status</th>
+                            <th>Date Hired</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($all_employees as $employee)
+                        <tr class="text-center">
+                            <td>{{ $employee->full_name }}</td>
+                            <td>{{ $employee->job_title }} - {{ $employee->job_role }}</td>
+                            <td>{{ $employee->employment_status }}</td>
+                            <td>{{ $employee->created_at }}</td>
+                            @if ($employee->employment_status === 'HIRED')
+                                <td class="text-center">
+                                    <!-- Dismiss Button -->
+                                    <form method="POST" action="{{ route('dismiss.employees') }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                                        <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal">
+                                            <i class="bi bi-person-x danger"> Dismiss</i></button>
+                                        <?php $message = 'Are you sure you want to DISMISS this employee?'?>
+                                        @include('layouts.message')
+                                    </form>
+                                </td>
+                            @else
+                                <td><i class="bi bi-calendar-x"></i> {{ $employee->updated_at }}</td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="applicant-status">
+                @if ($all_employees->isNotEmpty())
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="active">
+                            <th>Employment Date</th>
+                            <th>Job</th>
+                            <th>Status</th>
+                            <th>Review</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <h3>Applicant Name: {{ Auth::user()->full_name }}</h3>
+                    
+                        @foreach ($all_employees as $employee)
+                            <tr class="text-center">
+                                <td>{{ $employee->created_at }}</td>
+                                <td>{{ $employee->job_title }}</td>
+                                <td>{{ $employee->employment_status }}</td>
+                                @if ($employee->employment_status === 'HIRED')
+                                    <td>
+                                        <!-- Dismiss Button -->
+                                        <form method="POST" action="{{ route('resign.employees') }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                                            <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal">
+                                                <i class="bi bi-file-earmark-excel"> Resign</i></button>
+                                            <?php $message = 'Are you sure you want to DISMISS this employee?'?>
+                                            @include('layouts.message')
+                                        </form>
+                                    </td>
+                                @else
+                                    <td><i class="bi bi-calendar-x"></i> {{ $employee->updated_at }}</td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                    <h3 class='text-center'>You have not been HIRED yet.</h3>
+                @endif
+            </div>
+        @endif
+    @endauth
+</div>
+@endsection
