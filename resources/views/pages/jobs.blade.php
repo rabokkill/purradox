@@ -118,13 +118,12 @@
                                 <td class="text-center">
                                     <form method="POST" action="{{ route('apply.job') }}">
                                         @csrf
-                                        @method('POST')
-                                            <input type="hidden" name="job_id" value="{{ $job->id }}">
-                                            <input type="hidden" name="job_title" value="{{ $job->job_title }}">
-                                            <input type="hidden" name="job_role" value="{{ $job->job_role }}">
-                                            <button type="button" class="btn btn-success" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-hand-index-thumb-fill"></i></button>
-                                            <?php $message = 'Submit your application?'?>
-                                            @include('layouts.message')
+                                        <input type="hidden" name="job_id" value="{{ $job->id }}">
+                                        <input type="hidden" name="job_title" value="{{ $job->job_title }}">
+                                        <input type="hidden" name="job_role" value="{{ $job->job_role }}">
+                                        <button type="button" class="btn btn-success" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-hand-index-thumb-fill"></i></button>
+                                        <?php $message = 'Submit your application?'?>
+                                        @include('layouts.message')
                                     </form>
                                 </td>
                             @endif

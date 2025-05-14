@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Employee;
 use App\Models\Applicant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,11 +71,19 @@ class JobController extends Controller
 
     public function apply_job(Request $request)
     {
-        
         $user_id = Auth::id();
         $user_fname = Auth::user()->first_name;
         $user_lname = Auth::user()->last_name;
         
+        $check = Employee::where('user_id', $user_id)
+                    ->where('employment_status', 'HIRED')
+                    ->exists();
+        
+        if ($check)
+        {
+            return redirect()->route('show.jobs')->with('message', 'You are currently Hired and cannot apply to another job as of the moment.');
+        }
+
         $exists = Applicant::where('user_id', $user_id)
                     ->where('application_status', 'PENDING')
                     ->exists();
@@ -93,6 +102,6 @@ class JobController extends Controller
             'job_role' => $request->input('job_role')
         ]);
     
-        return redirect()->route('show.status')->with('message', 'Application Submitted Successfully!');
+        return redirect()->route('show.applicantStatus')->with('message', 'Application Submitted Successfully!');
     }
 }

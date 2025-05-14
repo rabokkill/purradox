@@ -73,7 +73,7 @@
                                             <input type="hidden" name="employee_id" value="{{ $employee->id }}">
                                             <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal">
                                                 <i class="bi bi-file-earmark-excel"> Resign</i></button>
-                                            <?php $message = 'Are you sure you want to DISMISS this employee?'?>
+                                            <?php $message = 'Are you sure you want to Resign?'?>
                                             @include('layouts.message')
                                         </form>
                                     </td>
@@ -85,7 +85,7 @@
                     </tbody>
                 </table>
                 @else
-                    <h3 class='text-center'>You have not been HIRED yet.</h3>
+                    <h3 class='text-center'>You have not been Hired yet.</h3>
                 @endif
             </div>
         @endif
