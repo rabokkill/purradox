@@ -7,33 +7,45 @@
     <button class="btn btn-secondary btn-jobs" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
     <form method="POST" action="{{ route('create.job') }}">
         @csrf
-        <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListing" aria-hidden="true">
+        <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListingLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">New Job Listing</h1>
+                        <h1 class="modal-title fs-5" id="newJobListingLabel">New Job Listing</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="job_dept">Department</label>
-                            <input type="text" name="job_dept" class="form-control" id="job_dept" required>
+                            <label for="select_dept">Department</label>
+                             <select id="select_dept" name="job_dept" class="form-select" aria-label="Department select" required>
+                                <option selected>Departments</option>
+                                <option value="Game Design">Game Design</option>
+                                <option value="Art and Animation">Art and Animation</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="job_title">Title</label>
-                            <input type="text" name="job_title" class="form-control" id="job_title" required>
+                            <label for="select_title">Title</label>
+                             <select id="select_title" name="job_title" class="form-select" aria-label="Title select" required>
+                                <option selected disabled>- choose Department first -</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="job_role">Role</label>
-                            <input type="text" name="job_role" class="form-control" id="job_role" required>
+                            <label for="select_role">Role</label>
+                             <select id="select_role" name="job_role" class="form-select" aria-label="Role select" required>
+                                <option selected>Roles</option>
+                                <option value="Junior">Junior</option>
+                                <option value="Senior">Senior</option>
+                                <option value="Lead">Lead</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="job_salary">Salary</label>
-                            <input type="text" name="job_salary" class="form-control" id="job_salary" required>
+                            <label for="select_salary">Salary in PHP</label>
+                            <input type="text" id="select_salary" name="job_salary" class="form-control" placeholder="- choose Role first -" required disabled>
                         </div>
                         <div class="form-group">
                             <label for="job_desc">Description</label>
-                            <textarea name="job_desc" id="job_desc" cols="30" rows="10" class="form-control"></textarea>
+                            <textarea id="job_desc" name="job_desc" cols="30" rows="10" class="form-control"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="job_slots">Slots</label>
@@ -42,7 +54,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Post</button>
                     </div>
                 </div>
             </div>
@@ -61,7 +73,7 @@
                     <th>Department</th>
                     <th>Title</th>
                     <th>Role</th>
-                    <th>Salary</th>
+                    <th>Salary (PHP)</th>
                     <th>Description</th>
                     <th>Slots</th>
                     <th>Date Posted</th>
@@ -74,13 +86,20 @@
                             <th>APPLY</th>
                         @endif
                     @endauth
-                    <!-- <th id="toggleEdit('view-mode')">DELETE</th>
-                    <th id="toggleEdit('edit-mode')">CANCEL</th> -->
                 </tr>
             </thead>
             <tbody>
                 @foreach ($all_jobs as $job)
+                    @auth
+                        @php $isNotAdmin = auth()->user()->isNotAdmin(); @endphp
+                    @endauth
+                    @auth
+                        @if($isNotAdmin && $job->job_slots <= 0)
+                            @continue
+                        @endif
+                    @endauth
                     <tr id="view-mode-{{ $job->id }}" class="view-mode">
+                        <input type="hidden" name="job_id" value="{{ $job->id }}">
                         @auth
                             @if(auth()->user()->isAdmin())
                             <td class="text-center">{{ $job->id }}</td>
@@ -88,7 +107,7 @@
                         @endauth
                         <td>{{ $job->job_dept }}</td>
                         <td>{{ $job->job_title }}</td>
-                        <td>{{ $job->job_role }}</td>
+                        <td>{{ $job->job_role }} {{ $job->job_title }}</td>
                         <td>{{ $job->job_salary }}</td>
                         <td>{{ $job->job_desc }}</td>
                         <td class="text-center">{{ $job->job_slots }}</td>
@@ -105,25 +124,25 @@
                                 </td>
                                 <!-- Delete Button -->
                                 <td class="text-center">
-                                    <form method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
+                                    <form id="delete-form-{{ $job->id }}" method="POST" action="{{ route('delete.job', ['job' => $job]) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-trash3-fill"></i></button>
-                                        <?php $message = 'Are you sure you want to delete this Job Listing?'?>
-                                        @include('layouts.message')
+                                        <button type="button" class="btn btn-danger" data-bs-target="#messageModal" 
+                                            data-form-id="delete-form-{{ $job->id }}" data-bs-toggle="modal" 
+                                            data-message="Are you sure you want to delete this Job Listing?"><i class="bi bi-trash3-fill"></i>
+                                        </button>
                                     </form>
                                 </td>
                             @else
                                 <!-- Apply Button -->
                                 <td class="text-center">
-                                    <form method="POST" action="{{ route('apply.job') }}">
+                                    <form id="apply-form-{{ $job->id }}" method="POST" action="{{ route('apply.job') }}">
                                         @csrf
                                         <input type="hidden" name="job_id" value="{{ $job->id }}">
-                                        <input type="hidden" name="job_title" value="{{ $job->job_title }}">
-                                        <input type="hidden" name="job_role" value="{{ $job->job_role }}">
-                                        <button type="button" class="btn btn-success" data-bs-target="#messageModal" data-bs-toggle="modal"><i class="bi bi-hand-index-thumb-fill"></i></button>
-                                        <?php $message = 'Submit your application?'?>
-                                        @include('layouts.message')
+                                        <button type="button" class="btn btn-success" data-bs-target="#messageModal" 
+                                            data-form-id="apply-form-{{ $job->id }}" data-bs-toggle="modal" 
+                                            data-message="Submit your application?"><i class="bi bi-hand-index-thumb-fill"></i>
+                                        </button>
                                     </form>
                                 </td>
                             @endif
@@ -131,23 +150,24 @@
                     </tr>
                     <tr id="edit-mode-{{ $job->id }}" class="toggle-form">
                         <td class="text-center">{{ $job->id }}</td>
-                        <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
-                            @csrf
-                            @method('PUT')
-                            <input type="hidden" name="job_id" value="{{ $job->id }}"/>
-                            <td><input type="text" name="job_dept" value="{{ $job->job_dept }}" class="form-control"/></td>
-                            <td><input type="text" name="job_title" value="{{ $job->job_title }}" class="form-control"/></td>
-                            <td><input type="text" name="job_role" value="{{ $job->job_role }}" class="form-control"/></td>
-                            <td><input type="text" name="job_salary" value="{{ $job->job_salary }}" class="form-control"/></td>
-                            <td><input type="text" name="job_desc" value="{{ $job->job_desc }}" class="form-control"/></td>
-                            <td><input type="number" name="job_slots" value="{{ $job->job_slots }}" class="form-control text-center"/></td>
-                            <td class="text-center">{{ $job->created_at }}</td>
-                            <td class="text-center">{{ $job->updated_at }}</td>
-                            <!-- Update Button -->
-                            <td class="text-center">
-                                <button type="submit" class="btn btn-success"><i class="bi bi-check-square-fill"></i></button>
-                            </td>
-                        </form>
+                        <td>{{ $job->job_dept }}</td>
+                        <td>{{ $job->job_title }}</td>
+                        <td>{{ $job->job_role }} {{ $job->job_title }}</td>
+                        <td>
+                            <form method="POST" action="{{ route('update.job', ['job' => $job]) }}">
+                                @csrf
+                                @method('PUT')
+                                <input type="text" name="job_salary" value="{{ $job->job_salary }}" class="form-control">
+                        </td>
+                        <td><input type="text" name="job_desc" value="{{ $job->job_desc }}" class="form-control"></td>
+                        <td><input type="number" name="job_slots" value="{{ $job->job_slots }}" class="form-control text-center"></td>
+                        <td class="text-center">{{ $job->created_at }}</td>
+                        <td class="text-center">{{ $job->updated_at }}</td>
+                        <!-- Update Button -->
+                        <td class="text-center">
+                            <button type="submit" class="btn btn-success"><i class="bi bi-check-square-fill"></i></button>
+                            </form> <!-- Close the form here -->
+                        </td>
                         <!-- Cancel Update Button -->
                         <td class="text-center">
                             <button class="btn btn-warning" type="button" 
@@ -165,41 +185,63 @@
     <div class="pages justify-content-between">
         {{ $all_jobs->links('pagination::bootstrap-5') }}
     </div>
-    <!-- Success Modal -->
-    @if(session()->has('message'))
-    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header bg-info text-white">
-            <h5 class="modal-title" id="feedbackModalLabel">Notice</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-            <p>{{ session('message') }}</p>
-        </div>
-        </div>
-    </div>
-    </div>
-    @endif
-    <!-- Error Modal -->
-    @if ($errors->any())
-    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title" id="feedbackModalLabel">Error</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-            <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-            </ul>
-        </div>
-        </div>
-    </div>
-    </div>
-    @endif
 </div>
+@include('layouts.message')
+@include('layouts.feedback')
+<script>
+    // New Job Listing
+    const departmentSelect = document.getElementById('select_dept');
+    const titleSelect = document.getElementById('select_title');
+    const roleSelect = document.getElementById('select_role');
+    const salaryAuto = document.getElementById('select_salary');
+
+    const titlesByDepartment = {
+        "Game Design": ["Game Designer","Level Designer", "Narrative Designer", "Systems Designer", "UX Designer"],
+        "Art and Animation": ["Concept Artist", "3D Modeler", "Texture Artist", "Animator", "VFX Artist", "UI Artist", "Technical Artist"],
+        "Quality Assurance": ["QA Tester", "QA Analyst", "Playtester"]
+    };
+
+    departmentSelect.addEventListener('change', function () {
+        const selectedDept = this.value;
+        titleSelect.innerHTML = '<option selected disabled>Titles</option>';
+
+        if (titlesByDepartment[selectedDept]) {
+            titlesByDepartment[selectedDept].forEach(title => {
+                const option = document.createElement('option');
+                option.value = title;
+                option.textContent = title;
+                titleSelect.appendChild(option);
+            });
+        }
+    });
+
+    const salariesByRole = {
+        "Junior": ["20,000-35,000"],
+        "Senior": ["35,000-50,000"],
+        "Lead": ["50,000-80,000"]
+    };
+
+    roleSelect.addEventListener('change', function () {
+        const selectedRole = this.value;
+
+        if (salariesByRole[selectedRole]) {
+            salaryAuto.value = salariesByRole[selectedRole][0];
+            salaryAuto.disabled = false;
+        } else {
+            salaryAuto.value = '';
+            salaryAuto.disabled = true;
+        }
+    });
+
+    // Update Job Listing
+    function toggleMode(jobID) {
+        var editMode = document.getElementById('edit-mode-' + jobID);
+        var viewMode = document.getElementById('view-mode-' + jobID);
+
+        var isEditing = editMode.style.display === "table-row";
+
+        editMode.style.display = isEditing ? "none" : "table-row";
+        viewMode.style.display = isEditing ? "table-row" : "none";
+    }
+</script>
 @endsection

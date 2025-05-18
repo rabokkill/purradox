@@ -14,7 +14,7 @@ i {
     width: 20%;
 }
 .page-item.active .page-link{
-    background-color: #8c00cc;
+    background-color: #28282B;
     border-color: white;
 }
 .page-link {
@@ -22,14 +22,14 @@ i {
     border-color: white;
 }
 .page-link:hover {
-    background-color: #ac66cc;
+    background-color: #023020;
     color: #fff;
 }
 .content {
     height: 100%;
     overflow-y: auto;
     /* width: 100%; */
-    background-color: #d7b7e5;
+    background-color: #28282B;
     font-family: Arial, Helvetica, sans-serif;
     display: inherit;
     flex-direction: column;
@@ -39,13 +39,12 @@ i {
 .content h1 {
     justify-self: center;
     color: #ffffff;
-    text-shadow: 2px 2px 4px #808080;
     font-weight: bold;
     text-align: center;
     padding-bottom: 30px;
     margin: 0;
 }
-.content h2, 
+/* .content h2, 
 .content h3,
 .content h4 {
     color: #ffffff;
@@ -60,7 +59,7 @@ i {
     line-height: 1.5;
     padding: 0;
     margin: 0;
-}
+} */
 .form-group {
     font-size: 15px;
     display: flex;
@@ -152,12 +151,12 @@ th {
     width: 100%;
 }
 .nav-link.active {
-    background-color: #8c00cc;
+    background-color: #28282B;
     font-size: 15px;
     padding: 10px 0;
 } 
 .nav-link.active:hover {
-    background-color: #ac66cc;
+    background-color: #28282B;
 }
 .nav h6 {
     text-align: right;
@@ -170,7 +169,7 @@ th {
 }
 .nav-link:hover {
     color: #ffffff;
-    background-color: #ac66cc;
+    background-color: #28282B;
 }
 #today {
     padding-bottom: 24px;
@@ -223,13 +222,15 @@ th {
 /* Applicant Banner End */
 /* Dashboard */
 .dashboard {
-    width: 80%;
-    table-layout: auto;
+    max-width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    position: relative;
-    padding-top: 20px;
+    flex-direction: column;
+    color: black;
+    background: white;
+    border-style: inset;
+    border-width: 10px;
+    border-color: #023020;
+    border-radius: 24px;
 }
 .lower-box {
     display: flex;
@@ -288,7 +289,7 @@ th {
 /* Applicants */
 .applicant-status {
     width: 90%;
-    background-color: #d7b7e5;
+    background-color: #28282B;
     border-style: dashed;
     border-color: #ffffff;
     padding: 20px 40px;

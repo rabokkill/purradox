@@ -7,7 +7,7 @@ $title = "Login";
     <source src="Assets/background-vid.mp4" type="video/mp4">
 </video>
 <div class="col-sm-4 account">
-    <img src="Assets/NekoBytesLogo.png" class="logo">
+    <img src="Assets/Purradox-Logo.png" class="logo">
     <h1 class="text-center"><?php echo $title; ?></h1>
     <!-- Error -->
     @if ($errors->any())

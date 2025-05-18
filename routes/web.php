@@ -8,6 +8,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Middleware\Login;
 
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('auth.login');

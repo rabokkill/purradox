@@ -17,7 +17,7 @@ class ApplicantController extends Controller
             ->whereNotNull('last_name')
             ->whereNotNull('job_id')
             ->orderBy('updated_at', 'desc')
-            ->paginate(7);
+            ->paginate(7); 
         
         /** @var \App\Models\User $user */
         $user_id = Auth::id();
@@ -57,14 +57,16 @@ class ApplicantController extends Controller
             return redirect()->route('show.applicants')->with('message', 'Already HIRED.');
         }
 
+        $applicant = Applicant::find($request->input('applicant_id'));
+
         Employee::create([
-            'user_id' => $request->input('user_id'),
-            'first_name' => $request->input('first_name'),
-            'last_name' => $request->input('last_name'),
-            'applicant_id' => $request->input('applicant_id'),
-            'job_id' => $request->input('job_id'),
-            'job_title' => $request->input('job_title'),
-            'job_role' => $request->input('job_role'),
+            'user_id' => $applicant->user_id,
+            'first_name' => $applicant->first_name,
+            'last_name' => $applicant->last_name,
+            'applicant_id' => $applicant->id,
+            'job_id' => $applicant->job_id,
+            'job_title' => $applicant->job_title,
+            'job_role' => $applicant->job_role,
             'employment_status' => 'HIRED'
         ]);
 

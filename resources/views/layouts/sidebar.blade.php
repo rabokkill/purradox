@@ -1,19 +1,5 @@
 <div class="col-2 sidebar">
-    <img src="{{url('assets/NekoBytesLogo.png')}}" style="width:80%;">
-    <!-- <ul class="nav nav-pills nav-stacked">
-        <li><h6><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</h6></li>
-        <li class="active text-center"><a href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i></a></li>
-        <li><a href="{{ route('show.jobs') }}">Job Listings</a></li>
-        @auth
-            @if(auth()->user()->user_type === 'admin')
-                <li><a href="">Employees</a></li>
-                <li><a href="">Applicants</a></li>
-            @else
-                <li><a href="">Employment Status</a></li>
-                <li><a href="">Application Status</a></li>
-            @endif
-        @endauth
-    </ul> -->
+    <img src="{{url('assets/Purradox-Logo.png')}}" style="width:75%;">
     <nav class="nav nav-pills flex-column">
         <h6><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</h6>
         <a class="nav-link active text-center" aria-current="page" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i></a>

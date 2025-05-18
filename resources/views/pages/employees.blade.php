@@ -5,44 +5,50 @@
     <h1>{{ $title }}</h1>
     @auth
         @if(auth()->user()->isAdmin())
-            <div class="data-list">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="active">
-                            <th>Employee Name</th>
-                            <th>Job</th>
-                            <th>Status</th>
-                            <th>Date Hired</th>
-                            <th>Review</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($all_employees as $employee)
-                        <tr class="text-center">
-                            <td>{{ $employee->full_name }}</td>
-                            <td>{{ $employee->job_title }} - {{ $employee->job_role }}</td>
-                            <td>{{ $employee->employment_status }}</td>
-                            <td>{{ $employee->created_at }}</td>
-                            @if ($employee->employment_status === 'HIRED')
-                                <td class="text-center">
-                                    <!-- Dismiss Button -->
-                                    <form method="POST" action="{{ route('dismiss.employees') }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <input type="hidden" name="employee_id" value="{{ $employee->id }}">
-                                        <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal">
-                                            <i class="bi bi-person-x danger"> Dismiss</i></button>
-                                        <?php $message = 'Are you sure you want to DISMISS this employee?'?>
-                                        @include('layouts.message')
-                                    </form>
-                                </td>
-                            @else
-                                <td><i class="bi bi-calendar-x"></i> {{ $employee->updated_at }}</td>
-                            @endif
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="applicant-status">
+                @if ($all_employees->isNotEmpty())
+                    <div class="data-list">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="active">
+                                    <th>Employee Name</th>
+                                    <th>Job</th>
+                                    <th>Status</th>
+                                    <th>Date Hired</th>
+                                    <th>Review</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($all_employees as $employee)
+                                    <tr class="text-center">
+                                        <td>{{ $employee->full_name }}</td>
+                                        <td>{{ $employee->job_title }} - {{ $employee->job_role }}</td>
+                                        <td>{{ $employee->employment_status }}</td>
+                                        <td>{{ $employee->created_at }}</td>
+                                        @if ($employee->employment_status === 'HIRED')
+                                            <td class="text-center">
+                                                <!-- Dismiss Button -->
+                                                <form id="dismiss-form-{{ $employee->id }}" method="POST" action="{{ route('dismiss.employees') }}">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <input type="hidden" name="employee_id" value="{{ $employee->id }}">
+                                                    <button type="button" class="btn btn-danger" data-bs-target="#messageModal" 
+                                                        data-form-id="dismiss-form-{{ $employee->id }}" data-bs-toggle="modal" 
+                                                        data-message="Are you sure you want to DISMISS this employee?"><i class="bi bi-person-x danger"> Dismiss</i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        @else
+                                            <td><i class="bi bi-calendar-x"></i> {{ $employee->updated_at }}</td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                    <h3 class='text-center'>No Employees yet.</h3>
+                @endif
             </div>
         @else
             <div class="applicant-status">
@@ -66,15 +72,15 @@
                                 <td>{{ $employee->employment_status }}</td>
                                 @if ($employee->employment_status === 'HIRED')
                                     <td>
-                                        <!-- Dismiss Button -->
-                                        <form method="POST" action="{{ route('resign.employees') }}">
+                                        <!-- Resign Button -->
+                                        <form id="resign-form-{{ $employee->id }}" method="POST" action="{{ route('resign.employees') }}">
                                             @csrf
                                             @method('PUT')
                                             <input type="hidden" name="employee_id" value="{{ $employee->id }}">
-                                            <button type="button" class="btn btn-danger" data-bs-target="#messageModal" data-bs-toggle="modal">
-                                                <i class="bi bi-file-earmark-excel"> Resign</i></button>
-                                            <?php $message = 'Are you sure you want to Resign?'?>
-                                            @include('layouts.message')
+                                            <button type="button" class="btn btn-danger" data-bs-target="#messageModal" 
+                                                data-form-id="resign-form-{{ $employee->id }}" data-bs-toggle="modal" 
+                                                data-message="Are you sure you want to Resign?"><i class="bi bi-file-earmark-excel"> Resign</i>
+                                            </button>
                                         </form>
                                     </td>
                                 @else
@@ -91,4 +97,6 @@
         @endif
     @endauth
 </div>
+@include('layouts.message')
+@include('layouts.feedback')
 @endsection

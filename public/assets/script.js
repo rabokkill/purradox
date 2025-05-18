@@ -61,7 +61,6 @@ function usernameValidation(input) {
     }
 }
 
-
 // Capitalize First Letter
 function capitalizeFirstLetter(input) {
     var value = input.value;
@@ -84,53 +83,7 @@ function viewPassword() {
       }
 }
 
-function showModal() {
-    var confirmAction = new bootstrap.Modal(document.getElementById('confirmAction'));
-    confirmAction.show();
-}
-
-// const confirmAction = new bootstrap.Modal('#confirmAction');
-
-// Job Listings
-// function toggleMode(jobID) {
-//     var editMode = document.getElementById('edit-mode-' + jobID);
-//     var viewMode = document.getElementById('view-mode-' + jobID);
-
-//     editMode.style.display = (editMode.style.display === "none" || editMode.style.display === "") ? "table-row" : "none";
-//     viewMode.style.display = (viewMode.style.display === "none" || viewMode.style.display === "") ? "none" : "table-row";
-// }
-
-function toggleMode(jobID) {
-    var editMode = document.getElementById('edit-mode-' + jobID);
-    var viewMode = document.getElementById('view-mode-' + jobID);
-
-    var isEditing = editMode.style.display === "table-row";
-
-    editMode.style.display = isEditing ? "none" : "table-row";
-    viewMode.style.display = isEditing ? "table-row" : "none";
-}
-
-// function toggleEdit() {
-//     var cancelMode = document.getElementById('edit-mode');
-//     var deleteMode = document.getElementById('view-mode');
-
-//     cancelMode.style.display = (cancelMode.style.display === "none" || cancelMode.style.display === "") ? "none" : "block";
-//     deleteMode.style.display = (deleteMode.style.display === "none" || deleteMode.style.display === "") ? "block" : "none";
-// }
-
-function toggleActionField(actionID) {
-    var allActions = document.querySelectorAll('.toggle-form');
-    var selectedAction = document.getElementById(actionID);
-    var closeForm = document.getElementById('closeForm');
-    
-    allActions.forEach(function(field) {
-        field.style.display = "none";
-    });
-
-    selectedAction.style.display = (selectedAction.style.display === "none" || selectedAction.style.display === "") ? "block" : "none";
-    closeForm.style.display = selectedAction.style.display === "block" ? "none" : "none";
-}
-
+// Feedback Modal
 window.addEventListener('DOMContentLoaded', () => {
 const feedbackModal = document.getElementById('feedbackModal');
 if (feedbackModal) {
@@ -138,3 +91,27 @@ if (feedbackModal) {
     modal.show();
 }
 });
+
+// Confirmation Modal
+let targetFormId = '';
+
+const messageModal = document.getElementById('messageModal');
+messageModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget;
+    const message = button.getAttribute('data-message');
+    targetFormId = button.getAttribute('data-form-id');
+
+    const modalMessage = messageModal.querySelector('#modalMessage');
+    modalMessage.textContent = message;
+});
+
+document.getElementById('confirmAction').addEventListener('click', function () {
+    if (targetFormId) {
+        document.getElementById(targetFormId).submit();
+    }
+});
+
+function showModal() {
+    var confirmAction = new bootstrap.Modal(document.getElementById('confirmAction'));
+    confirmAction.show();
+}

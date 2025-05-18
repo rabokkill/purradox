@@ -71,6 +71,11 @@ class User extends Authenticatable
     {
         return $this->user_type === 'admin';
     }
+    
+    public function isNotAdmin()
+    {
+        return !$this->isAdmin();
+    }
 
     public function isApplicant()
     {
