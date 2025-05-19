@@ -2,13 +2,13 @@
 @section('content')
 @include('layouts.sidebar')
 <div class="col content">
-    <h1>{{ $title }}</h1>
+    <h1 class="page-title">{{ $title }}</h1>
     @auth
         @if(auth()->user()->isAdmin())
-            <div class="applicant-status">
+            <div class="status-box">
                 @if ($all_employees->isNotEmpty())
                     <div class="data-list">
-                        <table class="table table-bordered">
+                        <table class="content-table">
                             <thead>
                                 <tr class="active">
                                     <th>Employee Name</th>
@@ -47,13 +47,14 @@
                         </table>
                     </div>
                 @else
-                    <h3 class='text-center'>No Employees yet.</h3>
+                    <h3 class='second-header text-center'>No Employees yet.</h3>
                 @endif
             </div>
         @else
-            <div class="applicant-status">
+            <div class="status-box">
                 @if ($all_employees->isNotEmpty())
-                <table class="table table-bordered">
+                <h3 class="second-header" style="margin-bottom: 12px;">Employee Name: {{ Auth::user()->full_name }}</h3>
+                <table class="content-table">
                     <thead>
                         <tr class="active">
                             <th>Employment Date</th>
@@ -63,8 +64,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <h3>Applicant Name: {{ Auth::user()->full_name }}</h3>
-                    
                         @foreach ($all_employees as $employee)
                             <tr class="text-center">
                                 <td>{{ $employee->created_at }}</td>
@@ -91,12 +90,11 @@
                     </tbody>
                 </table>
                 @else
-                    <h3 class='text-center'>You have not been Hired yet.</h3>
+                    <h3 class='second-header text-center'>You have not been Hired yet.</h3>
                 @endif
             </div>
         @endif
     @endauth
 </div>
 @include('layouts.message')
-@include('layouts.feedback')
 @endsection

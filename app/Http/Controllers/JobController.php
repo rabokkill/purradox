@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Job;
 use App\Models\Employee;
 use App\Models\Applicant;
@@ -13,7 +12,7 @@ class JobController extends Controller
 {
     public function job_listings()
     {
-        $jobs = Job::orderBy('updated_at', 'asc')->paginate(7);
+        $jobs = Job::orderBy('updated_at', 'desc')->paginate(5);
         return view('pages.jobs', [
             'title' => 'Job Listings',
             'all_jobs' => $jobs
@@ -28,9 +27,7 @@ class JobController extends Controller
             'job_role' => 'required|string|max:255',
             'job_salary' => 'required|string|max:255',
             'job_desc' => 'nullable|string|max:255',
-            'job_slots' => 'required|integer|min:1',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'job_slots' => 'required|integer|min:1'
         ]);
 
         $exists = Job::where('job_title', $validated['job_title'])
@@ -46,7 +43,7 @@ class JobController extends Controller
 
         Job::create($validated);
 
-        return redirect()->route('show.jobs')->with('message', 'Job Listing Added Successfully!');
+        return redirect()->route('show.jobs')->with('message', 'Job Listing posted successfully!');
     }
 
     public function update_job (Job $job, Request $request) 
@@ -54,20 +51,19 @@ class JobController extends Controller
         $validated = $request->validate([
             'job_salary' => 'required|string|max:255',
             'job_desc' => 'nullable|string|max:255',
-            'job_slots' => 'required|integer|min:1',
-            'updated_at' => Carbon::now()
+            'job_slots' => 'required|integer|min:1'
         ]);
         
         $job->update($validated);
 
-        return redirect()->route('show.jobs')->with('message', 'Job Listing Updated Successfully!');
+        return redirect()->route('show.jobs')->with('message', 'Job Listing updated successfully!');
     }
 
     public function delete_job (Job $job)
     {
         $job->delete();
 
-        return redirect()->route('show.jobs')->with('message', 'Job Listing Deleted Successfully!');
+        return redirect()->route('show.jobs')->with('message', 'Job Listing deleted successfully!');
     }
 
     public function apply_job(Request $request)

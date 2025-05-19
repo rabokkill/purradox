@@ -1,6 +1,3 @@
-<?php 
-$title = "Login";
-?>
 @extends('layouts.app')
 @section('content')
 <video autoplay loop muted plays-inline class="background-vid">
@@ -8,16 +5,15 @@ $title = "Login";
 </video>
 <div class="col-sm-4 account">
     <img src="Assets/Purradox-Logo.png" class="logo">
-    <h1 class="text-center"><?php echo $title; ?></h1>
+    <h1 class="text-center">{{ $title }}</h1>
     <!-- Error -->
     @if ($errors->any())
-    <div class="alert alert-danger" style="margin-top:10px">
+    <div class="alert alert-danger">
         @foreach ($errors->all() as $error)
             <div class="text-center">{{ $error }}</div>
         @endforeach
     </div>
     @endif
-    <!-- Error End-->
     <!-- Form -->
     <form action="{{ route('login') }}" method="POST">
         @csrf
@@ -35,7 +31,7 @@ $title = "Login";
             <input type="checkbox" class="view-password" onclick="viewPassword(this)" id="showPassword">
             <label for="showPassword">Show Password</label>
         </div>
-        <button type="submit" class="btn btn-primary btn-account">Login</button>
+        <button type="submit" class="btn btn-account">Login</button>
         <a href="{{ route('show.signup') }}">Create new applicant account here.</a>
     </form>
     <!-- Form End -->

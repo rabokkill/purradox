@@ -17,7 +17,7 @@ class EmployeeController extends Controller
             ->whereNotNull('applicant_id')
             ->whereNotNull('job_id')
             ->orderBy('updated_at', 'desc')
-            ->paginate(7);
+            ->paginate(5);
         
         /** @var \App\Models\User $user */
         $user_id = Auth::id();
@@ -39,7 +39,7 @@ class EmployeeController extends Controller
             ->whereNotNull('applicant_id')
             ->whereNotNull('job_id')
             ->orderBy('updated_at', 'desc')
-            ->paginate(7);
+            ->paginate(5);
         return view('pages.employees', [
             'title' => 'Employees',
             'all_employees' => $all_employees
@@ -61,6 +61,6 @@ class EmployeeController extends Controller
             'employment_status' => 'RESIGNED'
         ]);
     
-        return redirect()->route('show.employeeStatus')->with('message', 'RESIGNED successfully.');
+        return redirect()->route('show.employeeStatus')->with('message', 'You have successfully RESIGNED from your job.');
     }
 }

@@ -11,12 +11,16 @@ class AuthController extends Controller
 {
     public function showLogin () 
     {
-        return view('auth.login');
+        return view('auth.login', [
+            'title' => 'Login'
+        ]);
     }
 
     public function showSignup () 
     {
-        return view('auth.signup');
+        return view('auth.signup', [
+            'title' => 'Signup'
+        ]);
     }
 
     public function login (Request $request) 
@@ -28,14 +32,6 @@ class AuthController extends Controller
 
         if (Auth::attempt($validated)) {
             $request->session()->regenerate();
-            // $user = Auth::user();
-            // if ($user->isAdmin()) {
-            //     return redirect()->route('admin.dashboard');
-            // } elseif ($user->isApplicant()) {
-            //     return redirect()->route('user.dashboard');
-            // } elseif ($user->isEmployee()) {
-            //     return redirect()->route('user.dashboard');
-            // }
             return redirect()->route('dashboard');
         }
 
@@ -67,6 +63,6 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('show.login');
+        return redirect()->route('show.login')->with('message', 'Sign up successful!');
     }
 }

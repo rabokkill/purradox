@@ -2,13 +2,13 @@
 @section('content')
 @include('layouts.sidebar')
 <div class="col content">
-    <h1>{{ $title }}</h1>
+    <h1 class="page-title">{{ $title }}</h1>
     @auth
         @if(auth()->user()->isAdmin())
-            <div class="applicant-status">
+            <div class="status-box">
                 @if ($all_applicants->isNotEmpty())
                     <div class="data-list">
-                        <table class="table table-bordered">
+                        <table class="content-table">
                             <thead>
                                 <tr class="active">
                                     <th>Applicant Name</th>
@@ -34,7 +34,7 @@
                                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                                         <button type="button" class="btn btn-success" data-bs-target="#messageModal" 
                                                             data-form-id="hire-form-{{ $applicant->id }}" data-bs-toggle="modal"
-                                                            data-message="Continue with hiring this applicant?"><i class="bi bi-hand-thumbs-up-fill"> Accept</i>
+                                                            data-message="Continue with HIRING this applicant?"><i class="bi bi-hand-thumbs-up-fill"> Accept</i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -46,7 +46,7 @@
                                                         <input type="hidden" name="applicant_id" value="{{ $applicant->id }}">
                                                         <button type="button" class="btn btn-danger" data-bs-target="#messageModal" 
                                                             data-form-id="deny-form-{{ $applicant->id }}" data-bs-toggle="modal" 
-                                                            data-message="Are you sure you want to deny this application?"><i class="bi bi-hand-thumbs-down-fill"> Deny</i>
+                                                            data-message="Are you sure you want to DENY this application?"><i class="bi bi-hand-thumbs-down-fill"> Deny</i>
                                                         </button>
                                                     </form>
                                                 </div>
@@ -62,13 +62,14 @@
                         </table>
                     </div>
                 @else
-                    <h3 class='text-center'>No Employees yet.</h3>
+                    <h3 class='second-header text-center'>No Applicants yet.</h3>
                 @endif
             </div>
         @else
-            <div class="applicant-status">
+            <div class="status-box">
                 @if ($all_applicants->isNotEmpty())
-                <table class="table table-bordered">
+                <h3 class="second-header" style="margin-bottom: 12px;">Applicant Name: {{ Auth::user()->full_name }}</h3>
+                <table class="content-table">
                     <thead>
                         <tr class="active">
                             <th>Application Date</th>
@@ -77,12 +78,11 @@
                             <th>Date Reviewed</th>
                         </tr>
                     </thead>
-                    <h3>Applicant Name: {{ Auth::user()->full_name }}</h3>
                     <tbody>
                         @foreach ($all_applicants as $applicant)
                             <tr class="text-center">
                                 <td>{{ $applicant->created_at }}</td>
-                                <td>{{ $applicant->job_title }}</td>
+                                <td>{{ $applicant->job_role }} {{ $applicant->job_title }}</td>
                                 <td>{{ $applicant->application_status }}</td>
                                 @if ($applicant->application_status === 'ACCEPTED')
                                     <td><i class="bi bi-calendar-check"></i> {{ $applicant->updated_at}}</td>
@@ -96,13 +96,11 @@
                     </tbody>
                 </table>
                 @else
-                    <h3 class='text-center'>You have not submitted any Application yet.</h3>
+                    <h3 class='second-header text-center'>You have not submitted any Application yet.</h3>
                 @endif
             </div>
         @endif
-        
     @endauth
 </div>
 @include('layouts.message')
-@include('layouts.feedback')
 @endsection

@@ -1,23 +1,19 @@
-<?php
-$title = "Signup";
-?>
 @extends('layouts.app')
 @section('content')
 <video autoplay loop muted plays-inline class="background-vid">
     <source src="Assets/background-vid.mp4" type="video/mp4">
 </video>
 <div class="col-sm-4 account">
-    <img src="Assets/NekoBytesLogo.png" class="logo">
-    <h1 class="text-center"><?php echo $title; ?></h1>
+    <img src="Assets/Purradox-Logo.png" class="logo">
+    <h1 class="text-center">{{ $title }}</h1>
     <!-- Error -->
     @if ($errors->any())
-        <ul class="px-4 py-2 bg-red-100">
-            @foreach ($errors->all() as $error)
-                <li class="my-2 text-red-500">{{ $error }}</li>
-            @endforeach
-        </ul>
+    <div class="alert alert-danger">
+        @foreach ($errors->all() as $error)
+            <div class="text-center">{{ $error }}</div>
+        @endforeach
+    </div>
     @endif
-    <!-- Error End -->
     <!-- Form -->
     <form action="{{ route('signup') }}" method="POST">
         @csrf
@@ -54,7 +50,7 @@ $title = "Signup";
             <input type="checkbox" class="view-password" onclick="viewPassword(this)" id="showPassword">
             <label for="showPassword">Show Password</label>
         </div>
-        <button type="submit" class="btn btn-primary btn-account">Submit</button>
+        <button type="submit" class="btn btn-account">Submit</button>
         <a href="{{ route('show.login') }}">Already have an account? Login here.</a>
     </form>
     <!-- Form End -->

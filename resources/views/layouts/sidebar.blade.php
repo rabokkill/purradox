@@ -2,7 +2,9 @@
     <img src="{{url('assets/Purradox-Logo.png')}}" style="width:75%;">
     <nav class="nav nav-pills flex-column">
         <h6><i class="bi bi-person-circle"></i> {{ Auth::user()->username }}</h6>
-        <a class="nav-link active text-center" aria-current="page" href="{{ route('dashboard') }}"><i class="bi bi-house-door-fill"></i></a>
+        <a class="nav-link text-center active-nav" aria-current="page" href="{{ route('dashboard') }}">
+            <i class="bi bi-house-door-fill" style="color: white;"></i>
+        </a>
         <a class="nav-link" href="{{ route('show.jobs') }}">Job Listings</a>
         @auth
             @if(auth()->user()->isAdmin())

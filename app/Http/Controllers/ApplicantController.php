@@ -17,7 +17,7 @@ class ApplicantController extends Controller
             ->whereNotNull('last_name')
             ->whereNotNull('job_id')
             ->orderBy('updated_at', 'desc')
-            ->paginate(7); 
+            ->paginate(5); 
         
         /** @var \App\Models\User $user */
         $user_id = Auth::id();
@@ -38,7 +38,7 @@ class ApplicantController extends Controller
             ->whereNotNull('last_name')
             ->whereNotNull('job_id')
             ->orderBy('updated_at', 'desc')
-            ->paginate(7);
+            ->paginate(5);
         
         return view('pages.applicants', [
             'title' => 'Applicants',

@@ -2,9 +2,10 @@
 @section('content')
 @include('layouts.sidebar')
 <div class="col content">
-    <h1>{{ $title }}</h1>
+    <h1 class="page-title">{{ $title }}</h1>
     <!-- New Job Listing -->
-    <button class="btn btn-secondary btn-jobs" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
+    <button class="btn btn-job" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
+    <br>
     <form method="POST" action="{{ route('create.job') }}">
         @csrf
         <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListingLabel" aria-hidden="true">
@@ -62,7 +63,7 @@
     </form>
     <!-- Show All Jobs -->
     <div class="data-list">
-        <table class="table table-bordered">
+        <table class="content-table">
             <thead>
                 <tr class="active">
                     @auth
@@ -187,7 +188,6 @@
     </div>
 </div>
 @include('layouts.message')
-@include('layouts.feedback')
 <script>
     // New Job Listing
     const departmentSelect = document.getElementById('select_dept');
