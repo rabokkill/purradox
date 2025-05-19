@@ -1,3 +1,6 @@
+<?php
+$title='Login'
+?>
 @extends('layouts.app')
 @section('content')
 <video autoplay loop muted plays-inline class="background-vid">

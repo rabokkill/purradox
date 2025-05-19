@@ -11,16 +11,12 @@ class AuthController extends Controller
 {
     public function showLogin () 
     {
-        return view('auth.login', [
-            'title' => 'Login'
-        ]);
+        return view('auth.login');
     }
 
     public function showSignup () 
     {
-        return view('auth.signup', [
-            'title' => 'Signup'
-        ]);
+        return view('auth.signup');
     }
 
     public function login (Request $request) 
