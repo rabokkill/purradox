@@ -6,7 +6,7 @@ $title='Login'
 <video autoplay loop muted plays-inline class="background-vid">
     <source src="Assets/background-vid.mp4" type="video/mp4">
 </video>
-<div class="col-sm-4 account">
+<div class="col-sm-8 col-md-7 col-lg-6 col-xl-5 col-xxl-4 account">
     <img src="Assets/Purradox-Logo.png" class="logo">
     <h1 class="text-center">{{ $title }}</h1>
     <!-- Error -->

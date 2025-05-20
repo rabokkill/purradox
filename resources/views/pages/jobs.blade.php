@@ -1,66 +1,70 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.sidebar')
-<div class="col content">
+<div class="col-10 content">
     <h1 class="page-title">{{ $title }}</h1>
-    <!-- New Job Listing -->
-    <button class="btn btn-job" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
-    <br>
-    <form method="POST" action="{{ route('create.job') }}">
-        @csrf
-        <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListingLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="newJobListingLabel">New Job Listing</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="select_dept">Department</label>
-                             <select id="select_dept" name="job_dept" class="form-select" aria-label="Department select" required>
-                                <option selected>Departments</option>
-                                <option value="Game Design">Game Design</option>
-                                <option value="Art and Animation">Art and Animation</option>
-                                <option value="Quality Assurance">Quality Assurance</option>
-                            </select>
+    @auth
+        @if(auth()->user()->isAdmin())
+        <!-- New Job Listing -->
+        <button class="btn btn-job" type="button" data-bs-toggle="modal" data-bs-target="#newJobListing">New Job Listing</button>
+        <br>
+        <form method="POST" action="{{ route('create.job') }}">
+            @csrf
+            <div class="modal fade" id="newJobListing" tabindex="-1" aria-labelledby="newJobListingLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="newJobListingLabel">New Job Listing</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="form-group">
-                            <label for="select_title">Title</label>
-                             <select id="select_title" name="job_title" class="form-select" aria-label="Title select" required>
-                                <option selected disabled>- choose Department first -</option>
-                            </select>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="select_dept">Department</label>
+                                <select id="select_dept" name="job_dept" class="form-select" aria-label="Department select" required>
+                                    <option selected>Departments</option>
+                                    <option value="Game Design">Game Design</option>
+                                    <option value="Art and Animation">Art and Animation</option>
+                                    <option value="Quality Assurance">Quality Assurance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_title">Title</label>
+                                <select id="select_title" name="job_title" class="form-select" aria-label="Title select" required>
+                                    <option selected disabled>- choose Department first -</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_role">Role</label>
+                                <select id="select_role" name="job_role" class="form-select" aria-label="Role select" required>
+                                    <option selected>Roles</option>
+                                    <option value="Junior">Junior</option>
+                                    <option value="Senior">Senior</option>
+                                    <option value="Lead">Lead</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="select_salary">Salary in PHP</label>
+                                <input type="text" id="select_salary" name="job_salary" class="form-control" placeholder="- choose Role first -" required disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="job_desc">Description</label>
+                                <textarea id="job_desc" name="job_desc" cols="30" rows="10" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="job_slots">Slots</label>
+                                <input type="number" name="job_slots" class="form-control" id="job_slots" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="select_role">Role</label>
-                             <select id="select_role" name="job_role" class="form-select" aria-label="Role select" required>
-                                <option selected>Roles</option>
-                                <option value="Junior">Junior</option>
-                                <option value="Senior">Senior</option>
-                                <option value="Lead">Lead</option>
-                            </select>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Post</button>
                         </div>
-                        <div class="form-group">
-                            <label for="select_salary">Salary in PHP</label>
-                            <input type="text" id="select_salary" name="job_salary" class="form-control" placeholder="- choose Role first -" required disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="job_desc">Description</label>
-                            <textarea id="job_desc" name="job_desc" cols="30" rows="10" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="job_slots">Slots</label>
-                            <input type="number" name="job_slots" class="form-control" id="job_slots" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Post</button>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+        @endif
+    @endauth
     <!-- Show All Jobs -->
     <div class="data-list">
         <table class="content-table">

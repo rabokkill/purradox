@@ -14,11 +14,12 @@
         <!-- Top Row -->
         <div class="row justify-content-md-center mb-4">
             <div class="col-sm-5 dashboard me-5 p-3">
-                <h2 class="text-sm-start fw-bold">Mission</h2>
-                <p class="fs-5 text-sm-start">To develop games that encourage critical thinking and promote sustainable actions toward our natural environment 
+                <h3 class="text-sm-start fw-bold">Mission</h3>
+                <p class="fs-6 text-sm-start">To develop games that encourage critical thinking and promote sustainable actions toward our natural environment 
                     whilst offering valuable entertainment for gamers and the like.</p>
-                <h2 class="text-sm-start fw-bold">Vision</h2>
-                <p class="fs-5 text-sm-start">To assemble a community that aligns with our inclined game themes and concepts.</p>
+                <br>
+                <h3 class="text-sm-start fw-bold">Vision</h3>
+                <p class="fs-6 text-sm-start">To assemble a community that aligns with our inclined game themes and concepts.</p>
             </div>
             <div class="col-sm-4">
                 <div class="row d-flex flex-column justify-content-between" style="height: 100%;">
@@ -53,7 +54,7 @@
                         <h4>Jobs</h4>
                         <hr>
                         @if($jobCount)
-                            <h1>{{ $jobCount }}</h1>
+                            <h2>{{ $jobCount }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif
@@ -61,7 +62,7 @@
                         <h4>Job Listings</h4>
                         <hr>
                         @if($availableJobCount)
-                            <h1>{{ $availableJobCount }}</h1>
+                            <h2>{{ $availableJobCount }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif
@@ -74,7 +75,7 @@
                         <h4>HIRED Employees</h4>
                         <hr>
                         @if($hiredCount)
-                            <h1>{{ $hiredCount }}</h1>
+                            <h2>{{ $hiredCount }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif
@@ -82,7 +83,7 @@
                         <h4>Employment Status</h4>
                         <hr>
                         @if($employmentStatus)
-                            <h1>{{ $employmentStatus }}</h1>
+                            <h2>{{ $employmentStatus }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif
@@ -95,7 +96,7 @@
                         <h4>PENDING Applications</h4>
                         <hr>
                         @if($pendingCount)
-                            <h1>{{ $pendingCount }}</h1>
+                            <h2>{{ $pendingCount }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif
@@ -103,7 +104,7 @@
                         <h4>Application Status</h4>
                         <hr>
                         @if($applicationStatus)
-                            <h1>{{ $applicationStatus }}</h1>
+                            <h2>{{ $applicationStatus }}</h2>
                         @else
                             <p class="fs-5 text-center">- none -</p>
                         @endif

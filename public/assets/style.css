@@ -3,12 +3,12 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     padding: 0;
     margin: 0;
 }
 .content {
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     background-color: #28282B;
     font-family: Arial, Helvetica, sans-serif;
@@ -16,6 +16,19 @@
     flex-direction: column;
     align-items: center;
     padding: 50px 10px 0;
+}
+ .sidebar {
+    background-color: whitesmoke;
+    color: black;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 24px;
+    margin: 0;
 }
 .page-title {
     justify-self: center;
@@ -97,22 +110,28 @@ hr {
 }
 /* Auth */
 .background-vid {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
     z-index: -1;
+    object-position: center;
 }
 .logo {
-    width: 80px;
+    width: 20%;
+    max-width: 100px;
+    height: auto;
     display: inherit;
     justify-self: right;
 }
 .account {
     height: fit-content;
-    width: 550px;
+    align-self: center;
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 13.5px;
+    font-size: 1rem;
     border-radius: 24px;
     padding: 40px 60px;
 }
@@ -143,20 +162,7 @@ hr {
 .view-password {
     text-align: right;
 }
-/* Sidebar */
-.sidebar {
-    background-color: whitesmoke;
-    color: black;
-    font-family: Verdana, Helvetica, Arial, sans-serif;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 24px;
-    margin: 0;
-}
+/* Navigation */
 .nav {
     height: 100%;
     width: 100%;
