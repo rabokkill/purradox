@@ -29,13 +29,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="select_title">Title</label>
-                                <select id="select_title" name="job_title" class="form-select" aria-label="Title select" required>
-                                    <option selected disabled>- choose Department first -</option>
+                                <select id="select_title" name="job_title" class="form-select" aria-label="Title select" required disabled>
+                                    <option selected disabled>Titles</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="select_role">Role</label>
-                                <select id="select_role" name="job_role" class="form-select" aria-label="Role select" required>
+                                <select id="select_role" name="job_role" class="form-select" aria-label="Role select" required disabled>
                                     <option selected>Roles</option>
                                     <option value="Junior">Junior</option>
                                     <option value="Senior">Senior</option>
@@ -205,9 +205,55 @@
         "Quality Assurance": ["QA Tester", "QA Analyst", "Playtester"]
     };
 
-    departmentSelect.addEventListener('change', function () {
+    const salariesByDeptAndRole = {
+        "Game Design": {
+            "Junior": "25,000-35,000",
+            "Senior": "40,000-55,000",
+            "Lead": "60,000-80,000"
+        },
+        "Art and Animation": {
+            "Junior": "22,000-32,000",
+            "Senior": "38,000-50,000",
+            "Lead": "55,000-75,000"
+        },
+        "Quality Assurance": {
+            "Junior": "18,000-25,000",
+            "Senior": "26,000-35,000",
+            "Lead": "36,000-50,000"
+        }
+    };
+
+    function enableFields() {
+    const dept = departmentSelect.value;
+    const title = titleSelect.value;
+
+        if (dept && dept !== "Departments") {
+            titleSelect.disabled = false;
+            roleSelect.disabled = false;
+            salaryAuto.disabled = true;
+            titleSelect.value = 'Titles';
+            roleSelect.value = 'Roles';
+            salaryAuto.value = '';
+        } else {
+            titleSelect.disabled = true;
+            roleSelect.disabled = true;
+            salaryAuto.disabled = true;
+            titleSelect.value = 'Titles';
+            roleSelect.value = 'Roles';
+            salaryAuto.value = '';
+        }
+    }
+
+    titleSelect.addEventListener('change', function() {
+        roleSelect.disabled = false;
+        salaryAuto.disabled = true;
+        roleSelect.value = 'Roles';
+        salaryAuto.value = '';
+    });
+
+    departmentSelect.addEventListener('change', function() {
         const selectedDept = this.value;
-        titleSelect.innerHTML = '<option selected disabled>Titles</option>';
+        enableFields();
 
         if (titlesByDepartment[selectedDept]) {
             titlesByDepartment[selectedDept].forEach(title => {
@@ -219,21 +265,18 @@
         }
     });
 
-    const salariesByRole = {
-        "Junior": ["20,000-35,000"],
-        "Senior": ["35,000-50,000"],
-        "Lead": ["50,000-80,000"]
-    };
-
-    roleSelect.addEventListener('change', function () {
+    roleSelect.addEventListener('change', function() {
         const selectedRole = this.value;
+        const selectedDept = departmentSelect.value;
 
-        if (salariesByRole[selectedRole]) {
-            salaryAuto.value = salariesByRole[selectedRole][0];
+        if (salariesByDeptAndRole[selectedDept] &&
+            salariesByDeptAndRole[selectedDept][selectedRole]
+        ){
+            salaryAuto.value = salariesByDeptAndRole[selectedDept][selectedRole];
             salaryAuto.disabled = false;
         } else {
-            salaryAuto.value = '';
             salaryAuto.disabled = true;
+            salaryAuto.value = '';
         }
     });
 
